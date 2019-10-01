@@ -57,7 +57,6 @@
               <div class="text-center mb-4">
                 <h1 class="h3 mb-3 font-weight-normal">Blog Login</h1>
               </div>
-
               <div class="form-label-group">
                 <label for="inputEmail">Email address</label>
                 <input type="email" id="username" class="form-control" placeholder="Email address" required=""
@@ -75,20 +74,25 @@
                 </label>
               </div>
               <button id="btnLogin" class="btn btn-lg btn-primary btn-block" type="submit">
-                  Sign in
+                Sign in
               </button>
             </div>
           </div>
         </form>
       </div>
       <div class="tab-pane fade mt-4" id="register" role="tabpanel" aria-labelledby="register-tab">
-        <form id="registerForm" class="need-validation" novalidate onsubmit="validateForm(this)">
+        <form id="registerForm" class="need-validation" novalidate onsubmit="validateForm(this)" oninput='up2.setCustomValidity(up2.value != up.value ? "Passwords do not match." : "")'>
           <div class="row">
             <div class="col-sm-12">
               <div class="text-center mb-4">
                 <h1 class="h3 mb-3 font-weight-normal">Blog Register</h1>
               </div>
-
+              <div class="alert alert-danger alert-dismissible fade hide" id="emailExtisOnRegister" role="alert">
+                Email already exists
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <div class="form-label-group">
                 <label for="fullName">Full name</label>
                 <input type="text" id="fullName" class="form-control" placeholder="Jhon Doe" required autofocus="">
@@ -104,12 +108,12 @@
 
               <div class="form-label-group">
                 <label for="password1">Password</label>
-                <input type="password" id="password1" min="8" class="form-control" placeholder="********" required="">
+                <input type="password" id="password1" name="up" class="form-control" placeholder="********" required="">
               </div>
 
               <div class="form-label-group">
                 <label for="password2">Confirm password</label>
-                <input type="password" id="password2" class="form-control" placeholder="********" required="">
+                <input type="password" id="password2" name="up2" class="form-control" placeholder="********" required="">
               </div>
 
               <div class="checkbox mb-3">
