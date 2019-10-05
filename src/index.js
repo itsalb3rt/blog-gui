@@ -1,3 +1,5 @@
+import env from './env';
+
 function login() {
 
     var loginBtn = document.getElementById('btnLogin');
@@ -10,7 +12,7 @@ function login() {
 
     loginBtn.setAttribute('disabled', true);
 
-    fetch(`${API_PATH}/login`, {
+    fetch(`${env.API_PATH}/login`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -48,7 +50,7 @@ function register() {
 
     registerBtn.setAttribute('disabled', true);
 
-    fetch(`${API_PATH}/register`, {
+    fetch(`${env.API_PATH}/register`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
