@@ -51,7 +51,7 @@
     </ul>
     <div class="tab-content" id="myTabContent">
       <div class="tab-pane fade show active mt-4" id="login" role="tabpanel" aria-labelledby="login-tab">
-        <form id="loginForm" novalidate onsubmit="validateForm(this)">
+        <form id="loginForm" class="need-validation" novalidate>
           <div class="row">
             <div class="col-sm-12">
               <div class="text-center mb-4">
@@ -81,7 +81,7 @@
         </form>
       </div>
       <div class="tab-pane fade mt-4" id="register" role="tabpanel" aria-labelledby="register-tab">
-        <form id="registerForm" class="need-validation" novalidate onsubmit="validateForm(this)" oninput='up2.setCustomValidity(up2.value != up.value ? "Passwords do not match." : "")'>
+        <form id="registerForm" class="need-validation" novalidate oninput='up2.setCustomValidity(up2.value != up.value ? "Passwords do not match." : "")'>
           <div class="row">
             <div class="col-sm-12">
               <div class="text-center mb-4">

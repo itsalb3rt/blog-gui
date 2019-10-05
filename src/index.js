@@ -87,5 +87,15 @@ function validateForm(form) {
         }
     }
     form.classList.add('was-validated');
+}
 
+window.onload = () =>{
+    const forms = document.getElementsByClassName('need-validation');
+    const formCount = forms.length -1;
+
+    for(let i = 0; i <= formCount ;i++){
+       forms[i].addEventListener('submit',form=>{
+            validateForm(form.target);
+        });
+    }
 }
