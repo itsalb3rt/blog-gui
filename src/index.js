@@ -1,6 +1,7 @@
 import env from './env';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Request from './services/Request';
 
 function login() {
 
@@ -13,31 +14,19 @@ function login() {
     };
 
     loginBtn.setAttribute('disabled', true);
+    const request = new Request();
+    request.post(`${env.API_PATH}/login`, data).then(response => {
 
-    fetch(`${env.API_PATH}/login`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-
-            if (response.status === 400) {
-                loginBtn.removeAttribute('disabled');
-                alert('credenciales invalidas');
-            } else if (response.status === 201) {
-                loginBtn.textContent = 'Loged!';
-            }
-
-            return response.json();
-        })
-        .then(response => {
-            console.log('Success:', response)
-        })
-        .catch(error => {
+        if (response.status === 201) {
+            loginBtn.textContent = 'Loged!';
+            window.localStorage.setItem('token', response.token)
+        } else {
             loginBtn.removeAttribute('disabled');
-            console.log(error);
-        })
+            alert('credenciales invalidas');
+        }
+    }).catch(error => {
+        console.log(error);
+    })
 
 }
 
@@ -52,31 +41,21 @@ function register() {
 
     registerBtn.setAttribute('disabled', true);
 
-    fetch(`${env.API_PATH}/register`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
+    const request = new Request();
+    request.post(`${env.API_PATH}/register`, data).then(response => {
 
-            if (response.status === 400) {
-                registerBtn.removeAttribute('disabled');
-                document.getElementById('emailExtisOnRegister').classList.remove('hide');
-                document.getElementById('emailExtisOnRegister').classList.add('show');
-            } else if (response.status === 201) {
-                registerBtn.textContent = 'Registered!';
-            }
-
-            return response.json();
-        })
-        .then(response => {
-            console.log('Success:', response)
-        })
-        .catch(error => {
+        if (response.status === 201) {
+            registerBtn.textContent = 'Registered!';
+        } else {
             registerBtn.removeAttribute('disabled');
-            console.log(error);
-        })
+            document.getElementById('emailExtisOnRegister').classList.remove('hide');
+            document.getElementById('emailExtisOnRegister').classList.add('show');
+        }
+    }).catch(error => {
+        console.log(error);
+        registerBtn.removeAttribute('disabled');
+    })
+
 }
 
 function validateForm(form) {
@@ -93,12 +72,12 @@ function validateForm(form) {
     form.classList.add('was-validated');
 }
 
-window.onload = () =>{
+window.onload = () => {
     const forms = document.getElementsByClassName('need-validation');
-    const formCount = forms.length -1;
+    const formCount = forms.length - 1;
 
-    for(let i = 0; i <= formCount ;i++){
-       forms[i].addEventListener('submit',form=>{
+    for (let i = 0; i <= formCount; i++) {
+        forms[i].addEventListener('submit', form => {
             validateForm(form.target);
         });
     }
