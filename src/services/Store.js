@@ -17,6 +17,15 @@ export default class Store {
             },        
             async getPost(id) {
                 return request.get(`${path}/post/${id}`);
+            },
+            isLoged(){
+                const token = window.localStorage.getItem('token');
+
+                if (token === null || token === undefined){
+                    return false;
+                }else{
+                    return true;
+                }
             }
         }
     }

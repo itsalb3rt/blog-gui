@@ -5,7 +5,6 @@ export default class Security {
     constructor(path) {
         this.path = path;
         this.request = new Request();
-        console.log(this.request)
     }
 
     async login(credentials) {

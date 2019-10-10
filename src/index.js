@@ -3,7 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import posts from './components/Posts/List';
 import auth from './components/Auth/Auth';
+import Logout from './components/Auth/Logout';
 import Store from './services/Store';
+
+//icons
 import '@fortawesome/fontawesome-free/js/fontawesome'
 import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
@@ -30,7 +33,7 @@ async function validateSession(){
     // }
 
     // if all is fine handle create router handler.
-    var routes = [ posts,auth];
+    var routes = [ posts,auth,Logout];
     var router = new Router('app', routes);
 }
 

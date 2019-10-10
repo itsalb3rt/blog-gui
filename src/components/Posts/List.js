@@ -26,7 +26,7 @@ class List extends Route {
         super('posts', {
             htmlName: 'public/views/Posts/List.html'
         });
-        this.onMountCb = this.whenMounted
+        this.onMountCb = this.whenMounted;
     }
 
     async whenMounted() {
