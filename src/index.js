@@ -4,6 +4,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import posts from './components/Posts/List';
 import auth from './components/Auth/Auth';
 import Store from './services/Store';
+import '@fortawesome/fontawesome-free/js/fontawesome'
+import '@fortawesome/fontawesome-free/js/solid'
+import '@fortawesome/fontawesome-free/js/regular'
+import '@fortawesome/fontawesome-free/js/brands'
 
 async function validateSession(){
 

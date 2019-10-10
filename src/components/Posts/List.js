@@ -10,7 +10,11 @@ var template = `
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">by: {{NAME}} - {{EMAIL}}, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
-    <div>Views: {{VIEWS}} Comments: {{COMMENTS}} Likes: {{LIKES}}</div>
+    <div>
+        <span class="mr-3"><i class="fa fa-eye"></i> {{VIEWS}}</span>
+        <span class="mr-3"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
+        <span><i class="fa fa-heart"></i> {{LIKES}}</span>
+    </div>
     <a href="#post/1" class="card-link float-right">Read more...</a>
   </div>
 </div>
