@@ -73,10 +73,15 @@ export default class Request {
         });
 
         if (response.status === 200 || response.status === 201) {
-            return response.json();
+            const status = response.status;
+            let responseMod = await response.json();
+            responseMod['status'] = status;
+            return responseMod;
+        } else {
+            return {
+                'status': response.status
+            };
         }
-
-        return undefined;
     }
 
     async delete(path) {

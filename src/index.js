@@ -1,84 +1,36 @@
-import env from './env';
+import Router from './libs/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Request from './services/Request';
+import posts from './components/Posts/List';
+import auth from './components/Auth/Auth';
+import Store from './services/Store';
 
-function login() {
+async function validateSession(){
 
-    var loginBtn = document.getElementById('btnLogin');
+    //get token from local storage
+    const token = localStorage.getItem('token');
 
-    var data = {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-        email: document.getElementById('username').value
-    };
-
-    loginBtn.setAttribute('disabled', true);
-    const request = new Request();
-    request.post(`${env.API_PATH}/login`, data).then(response => {
-
-        if (response.status === 201) {
-            loginBtn.textContent = 'Loged!';
-            window.localStorage.setItem('token', response.token)
-        } else {
-            loginBtn.removeAttribute('disabled');
-            alert('credenciales invalidas');
-        }
-    }).catch(error => {
-        console.log(error);
-    })
-
-}
-
-function register() {
-    var registerBtn = document.getElementById('btnRegister');
-
-    var data = {
-        name: document.getElementById('fullName').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password1').value
-    };
-
-    registerBtn.setAttribute('disabled', true);
-
-    const request = new Request();
-    request.post(`${env.API_PATH}/register`, data).then(response => {
-
-        if (response.status === 201) {
-            registerBtn.textContent = 'Registered!';
-        } else {
-            registerBtn.removeAttribute('disabled');
-            document.getElementById('emailExtisOnRegister').classList.remove('hide');
-            document.getElementById('emailExtisOnRegister').classList.add('show');
-        }
-    }).catch(error => {
-        console.log(error);
-        registerBtn.removeAttribute('disabled');
-    })
-
-}
-
-function validateForm(form) {
-    event.preventDefault();
-    if (form.checkValidity() === false) {
-        event.stopPropagation();
-    } else {
-        if (form.getAttribute('id') === 'registerForm') {
-            register();
-        } else if (form.getAttribute('id') === 'loginForm') {
-            login();
-        }
+    // // if token if null or undefined return to login page
+    if (token === null || token === undefined){
+        window.location.href = '/#auth';
     }
-    form.classList.add('was-validated');
+
+    // Set this variables to global, will be use on SPA.
+    window.store = new Store(API_PATH, token);
+    // window.me = await blogapi.getMe();
+
+    // if me is undefined resturn to login page.
+    // if (me === undefined){
+    //     localStorage.removeItem('token');
+    //     window.location.href = '/#auth';
+    // }
+
+    // if all is fine handle create router handler.
+    var routes = [ posts,auth];
+    var router = new Router('app', routes);
 }
+
 
 window.onload = () => {
-    const forms = document.getElementsByClassName('need-validation');
-    const formCount = forms.length - 1;
-
-    for (let i = 0; i <= formCount; i++) {
-        forms[i].addEventListener('submit', form => {
-            validateForm(form.target);
-        });
-    }
+    validateSession();
 }
