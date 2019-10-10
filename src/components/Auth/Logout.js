@@ -1,5 +1,4 @@
 import Route from '../../libs/route';
-import Secutiry from '../../services/Security';
 
 class Logout extends Route {
 
