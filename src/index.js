@@ -21,6 +21,10 @@ async function validateSession(){
     if (token === null || token === undefined){
         window.location.href = '/#auth';
     }
+    
+    if(window.location.pathname === '/'){
+        window.location.href = '/#posts';
+    }
 
     // Set this variables to global, will be use on SPA.
     window.store = new Store(API_PATH, token);
