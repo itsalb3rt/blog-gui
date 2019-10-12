@@ -24,7 +24,7 @@ class List extends Route {
 
     constructor() {
         super('posts', {
-            htmlName: 'public/views/Posts/List.html'
+            htmlName: './views/Posts/List.html'
         });
         this.onMountCb = this.whenMounted;
     }

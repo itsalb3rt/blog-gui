@@ -5,7 +5,7 @@ class Auth extends Route {
 
   constructor() {
     super('auth', {
-      htmlName: 'public/views/Auth/Auth.html'
+      htmlName: './views/Auth/Auth.html'
     });
     this.onMountCb = this.whenMounted;
   }
