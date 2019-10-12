@@ -2,7 +2,7 @@ import Route from '../../libs/route';
 import moment from 'moment';
 
 var template = `
-<div class="card" style="margib-top: 10px">
+<div class="card mt-2 mb-2">
   <div class="card-body">
     <h5 class="card-title">
         <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
