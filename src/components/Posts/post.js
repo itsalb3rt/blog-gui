@@ -17,8 +17,6 @@ var template = `
 <hr>
 <div>
 `;
-const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
-
 class List extends Route {
 
     constructor() {
@@ -29,6 +27,7 @@ class List extends Route {
     }
 
     async whenMounted() {
+        const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
         document.getElementById('post').innerHTML = '<h3>Loading Post</h3>'
 
         let temporalTemplate = '';
@@ -53,6 +52,7 @@ class List extends Route {
 }
 
 async function like(event) {
+    const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
     let btn = event.target;
     if (btn.getAttribute('data-liked') === 'true') {
         //remove like
