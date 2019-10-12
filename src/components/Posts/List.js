@@ -37,7 +37,7 @@ class List extends Route {
 
         posts.forEach(post => {
             temporalTemplate += template
-                .replace('{{POSTID}}', post.id)
+                .replace(/{{POSTID}}/gi, post.id)
                 .replace('{{TITLE}}', post.title)
                 .replace('{{BODY}}', post.body.substring(0, 100))
                 .replace('{{NAME}}', post.userName)
