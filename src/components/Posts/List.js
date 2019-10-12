@@ -6,7 +6,7 @@ var template = `
   <div class="card-body">
     <h5 class="card-title">
         <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
-        <a href="#post/1" class="card-link">{{TITLE}}</a>
+        <a href="#post/{{POSTID}}" class="card-link">{{TITLE}}</a>
     </h5>
     <h6 class="card-subtitle mb-2 text-muted">by: {{NAME}} - {{EMAIL}}, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
@@ -37,6 +37,7 @@ class List extends Route {
 
         posts.forEach(post => {
             temporalTemplate += template
+                .replace('{{POSTID}}', post.id)
                 .replace('{{TITLE}}', post.title)
                 .replace('{{BODY}}', post.body.substring(0, 100))
                 .replace('{{NAME}}', post.userName)

@@ -1,7 +1,7 @@
 import Router from './libs/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import {Auth,Logout,List} from './components/Components'
+import {Auth,Logout,List,Post} from './components/Components'
 import Store from './services/Store';
 
 //icons
@@ -13,14 +13,14 @@ import '@fortawesome/fontawesome-free/js/brands'
 async function validateSession(){
 
     //get token from local storage
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token'); 
 
     // // if token if null or undefined return to login page
     if (token === null || token === undefined){
         window.location.href = '/#auth';
     }
     
-    if(window.location.pathname === '/'){
+    if(window.location.hash === ''){
         window.location.href = '/#posts';
     }
 
@@ -35,7 +35,7 @@ async function validateSession(){
     // }
 
     // if all is fine handle create router handler.
-    var routes = [Auth,Logout,List];
+    var routes = [Auth,Logout,List,Post];
     var router = new Router('app', routes);
 }
 
