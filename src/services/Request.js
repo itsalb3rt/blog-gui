@@ -49,11 +49,9 @@ export default class Request {
             headers: headers
         });
 
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-
-        return undefined;
+        return {
+            'status': response.status
+        };
     }
 
 
@@ -94,18 +92,14 @@ export default class Request {
             headers["Authorization"] = `Bearer ${this.token}`;
         }
 
-        console.log('Headers', headers);
-
         let response = await fetch(path, {
             method: 'DELETE',
             headers: headers
         });
 
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        }
-
-        return undefined;
+        return {
+            'status': response.status
+        };
     }
 
 }
