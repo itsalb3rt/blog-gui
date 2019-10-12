@@ -15,7 +15,7 @@ var template = `
         <span class="mr-3"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
         <span><i class="fa fa-heart"></i> {{LIKES}}</span>
     </div>
-    <a href="#post/1" class="card-link float-right">Read more...</a>
+    <a href="#post/{{POSTID}}" class="card-link float-right">Read more...</a>
   </div>
 </div>
 `

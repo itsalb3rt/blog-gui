@@ -18,6 +18,12 @@ export default class Store {
             async getPost(id) {
                 return request.get(`${path}/post/${id}`);
             },
+            async setPostLike(id) {
+                return request.put(`${path}/post/${id}/like`);
+            },
+            async removePostLike(id){
+                return request.delete(`${path}/post/${id}/like`);
+            },
             isLoged(){
                 const token = window.localStorage.getItem('token');
 
