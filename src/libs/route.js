@@ -17,7 +17,9 @@ export default class Route {
     }
 
     isActiveRoute(hashedPath) {
-        return hashedPath.replace('#', '') === this.name; 
+        let hash = hashedPath.replace('#', '');
+        hash = hash.substring(0,hashedPath.indexOf('/'));
+        return hash === this.name;
     }
 
     process(cb) {
