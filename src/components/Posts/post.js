@@ -16,7 +16,22 @@ var template = `
 </div>
 <hr>
 <div>
+    {{COMMENTS}} sobre <strong>"{{TITLE}}"</strong>
+</div
 `;
+
+var commentsTemplate = `
+<div class="card mt-3 mb-3">
+  <div class="card-header">
+    <p>{{NAME}} ~ {{EMAIL}}</p>
+    <p>{{DATE}}</p>
+  </div>
+  <div class="card-body">
+    <p class="card-text">{{BODY}}</p>
+  </div>
+</div>
+`;
+
 class List extends Route {
 
     constructor() {
@@ -27,6 +42,11 @@ class List extends Route {
     }
 
     async whenMounted() {
+        this.getPost();
+        this.getPostComments();
+    }
+
+    async getPost() {
         const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
         document.getElementById('post').innerHTML = '<h3>Loading Post</h3>'
 
@@ -35,7 +55,7 @@ class List extends Route {
         const post = await store.actions().getPost(postId);
 
         temporalTemplate += template
-            .replace('{{TITLE}}', post.title)
+            .replace(/{{TITLE}}/gi, post.title)
             .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
             .replace('{{USER}}', post.userName)
             .replace('{{EMAIL}}', post.userEmail)
@@ -44,10 +64,32 @@ class List extends Route {
             .replace('{{VIEWS}}', post.views)
             .replace('{{LIKES}}', post.likes)
             .replace('{{LIKED}}', post.liked)
+            .replace('{{COMMENTS}}', post.comments)
 
-        document.getElementById('post').innerHTML = temporalTemplate
+        document.getElementById('post').innerHTML = temporalTemplate;
         document.getElementById('btn-like').addEventListener('click', like);
         likeButtonModificationIsUserLikePost();
+
+        document.getElementById('btn-comment').addEventListener('click', addPostComment);
+    }
+
+    async getPostComments() {
+        const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
+
+        let temporalTemplate = '';
+
+        const comments = await store.actions().getPostComments(postId);
+
+        comments.forEach(comment => {
+            temporalTemplate += commentsTemplate
+                .replace('{{NAME}}', comment.userName)
+                .replace('{{EMAIL}}', comment.userEmail)
+                .replace('{{DATE}}', moment(comment.createdAt).format('DD/MM/YYYY h:mm:ss a'))
+                .replace('{{BODY}}', comment.body)
+
+        });
+
+        document.getElementById('comments').innerHTML = temporalTemplate
     }
 }
 
@@ -76,6 +118,21 @@ const likeButtonModificationIsUserLikePost = () => {
     if (btn.getAttribute('data-liked') === 'true') {
         btn.classList.remove('btn-outline-primary');
         btn.classList.add('btn-primary');
+    }
+}
+
+async function addPostComment(event) {
+    event.target.setAttribute('disabled', 'true');
+    const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
+    const comment = document.getElementById('comment-body').value;
+    if (comment.length < 1) {
+        alert('add a comment please');
+        event.target.removeAttribute('disabled');
+    } else {
+        await store.actions().addPostComment(postId, {
+            'body': comment
+        });
+        window.location.reload();
     }
 }
 

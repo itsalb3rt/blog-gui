@@ -21,6 +21,12 @@ export default class Store {
             async setPostLike(id) {
                 return request.put(`${path}/post/${id}/like`);
             },
+            async getPostComments(id) {
+                return request.get(`${path}/post/${id}/comment`);
+            },
+            async addPostComment(id,data){
+                return request.post(`${path}/post/${id}/comment`,data);
+            },
             async removePostLike(id){
                 return request.delete(`${path}/post/${id}/like`);
             },
