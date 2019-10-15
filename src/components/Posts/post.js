@@ -60,11 +60,12 @@ class List extends Route {
             .replace('{{USER}}', post.userName)
             .replace('{{EMAIL}}', post.userEmail)
             .replace('{{BODY}}', post.body)
-            .replace('{{TAGS}}', post.tags)
+            .replace('{{TAGS}}', this.getFormatterTags(post.tags))
             .replace('{{VIEWS}}', post.views)
             .replace('{{LIKES}}', post.likes)
             .replace('{{LIKED}}', post.liked)
             .replace('{{COMMENTS}}', post.comments)
+            
 
         document.getElementById('post').innerHTML = temporalTemplate;
         document.getElementById('btn-like').addEventListener('click', like);
@@ -91,7 +92,16 @@ class List extends Route {
 
         document.getElementById('comments').innerHTML = temporalTemplate
     }
+
+    getFormatterTags(tags){
+        let result = '';
+        for(let i in tags){
+            result += `<span class="badge badge-info mr-2 px-2 py-2">${tags[i]}</span>`
+        }
+        return result;
+    }
 }
+
 
 async function like(event) {
     const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
