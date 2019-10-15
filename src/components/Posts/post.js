@@ -48,7 +48,7 @@ class List extends Route {
 
     async getPost() {
         const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
-        document.getElementById('post').innerHTML = '<h3>Loading Post</h3>'
+        document.getElementById('post').innerHTML = '<h3 class="text-center mt-3 mb-3">Loading Post</h3>'
 
         let temporalTemplate = '';
 
