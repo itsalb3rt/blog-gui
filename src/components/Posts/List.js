@@ -1,5 +1,6 @@
 import Route from '../../libs/route';
 import moment from 'moment';
+import Miscellany from '../Miscellany/Loading';
 
 var template = `
 <div class="card mt-2 mb-2">
@@ -30,7 +31,7 @@ class List extends Route {
     }
 
     async whenMounted() {
-        document.getElementById('posts').innerHTML = '<h3 class="text-center mt-3 mb-3 animated infinite flash">Loading Posts</h3>'
+        document.getElementById('posts').innerHTML = Miscellany.loading;
         let temporalTemplate = '';
 
         const posts = await store.actions().getPosts();

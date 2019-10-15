@@ -1,5 +1,6 @@
 import Route from '../../libs/route';
 import moment from 'moment';
+import Miscellany from '../Miscellany/Loading';
 
 var template = `
 <div>
@@ -48,7 +49,7 @@ class List extends Route {
 
     async getPost() {
         const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
-        document.getElementById('post').innerHTML = '<h3 class="text-center mt-3 mb-3 animated infinite flash">Loading Post</h3>'
+        document.getElementById('post').innerHTML = Miscellany.loading;
 
         let temporalTemplate = '';
 
