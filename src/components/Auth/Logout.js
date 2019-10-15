@@ -8,6 +8,7 @@ class Logout extends Route {
     }
 
     async whenMounted() {
+        document.getElementById('app-navbar').style.display = 'none';
         window.localStorage.removeItem('token');
         window.location.href = '#auth';
     }

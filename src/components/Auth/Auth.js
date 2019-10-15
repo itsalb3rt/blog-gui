@@ -48,6 +48,7 @@ function login() {
       window.localStorage.setItem('token', response.token);
 
       setTimeout(() => {
+        document.getElementById('app-navbar').removeAttribute('style');
         window.store = new Store(API_PATH, response.token);
         window.location.href = '#posts';
       }, 1000)
