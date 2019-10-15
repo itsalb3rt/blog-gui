@@ -9,7 +9,7 @@ var template = `
     <p class="text-secondary">{{TAGS}}</p>
     <div class="actions">
         <button type="button" class="btn btn-outline-primary" id="btn-like" data-liked="{{LIKED}}">
-            <i class="fa fa-heart"></i>&Tab;Like {{LIKES}}
+            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
         </button>
         <span class="float-right"><i class="fa fa-eye"></i>&Tab;{{VIEWS}}</span>
     </div>
@@ -98,15 +98,19 @@ async function like(event) {
     let btn = event.target;
     if (btn.getAttribute('data-liked') === 'true') {
         //remove like
+        btn.setAttribute('data-liked','false');
         const unLike = await store.actions().removePostLike(postId);
         if (unLike.status === 200) {
+            document.getElementById('likes-count').textContent = parseInt(document.getElementById('likes-count').textContent) - 1;
             document.getElementById('btn-like').classList.remove('btn-primary');
             document.getElementById('btn-like').classList.add('btn-outline-primary');
         }
     } else {
         //add like
+        btn.setAttribute('data-liked','true');
         const likePost = await store.actions().setPostLike(postId);
         if (likePost.status === 200) {
+            document.getElementById('likes-count').textContent = parseInt(document.getElementById('likes-count').textContent) + 1;
             document.getElementById('btn-like').classList.remove('btn-outline-primary');
             document.getElementById('btn-like').classList.add('btn-primary');
         }
