@@ -30,7 +30,7 @@ class List extends Route {
     }
 
     async whenMounted() {
-        document.getElementById('posts').innerHTML = '<h3 class="text-center mt-3 mb-3">Loading Posts</h3>'
+        document.getElementById('posts').innerHTML = '<h3 class="text-center mt-3 mb-3 animated infinite flash">Loading Posts</h3>'
         let temporalTemplate = '';
 
         const posts = await store.actions().getPosts();
