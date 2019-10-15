@@ -42,11 +42,13 @@ module.exports = {
   },
   plugins: [
 		new HtmlWebpackPlugin({
-			template: './src/index.html'
+      template: './src/index.html',
+      favicon: "./src/images/blogging.png"
 		}),
 		new CopyPlugin([
       { from: './src/views/', to: 'views/' },
       { from: './src/app/', to: 'app/' },
+      { from: './src/images/', to: 'images/' },
 		]),
 	]
 };
