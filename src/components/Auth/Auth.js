@@ -1,5 +1,6 @@
 import Route from '../../libs/route';
 import Secutiry from '../../services/Security';
+import Store from '../../services/Store';
 
 class Auth extends Route {
 
@@ -47,6 +48,7 @@ function login() {
       window.localStorage.setItem('token', response.token);
 
       setTimeout(() => {
+        window.store = new Store(API_PATH, response.token);
         window.location.href = '#posts';
       }, 1000)
     } else {
