@@ -17,7 +17,7 @@ var template = `
 </div>
 <hr>
 <div>
-    {{COMMENTS}} sobre <strong>"{{TITLE}}"</strong>
+    {{COMMENTS}} comentarios sobre <strong>"{{TITLE}}"</strong>
 </div
 `;
 
