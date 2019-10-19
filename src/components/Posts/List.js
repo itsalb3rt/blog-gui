@@ -1,6 +1,7 @@
 import Route from '../../libs/route';
 import moment from 'moment';
 import Miscellany from '../Miscellany/Loading';
+import {like} from '../Miscellany/PostsUtil';
 
 var template = `
 <div class="card mt-2 mb-2">
@@ -12,9 +13,11 @@ var template = `
     <h6 class="card-subtitle mb-2 text-muted">by: {{NAME}} - {{EMAIL}}, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
     <div>
-        <span class="mr-3"><i class="fa fa-eye"></i> {{VIEWS}}</span>
-        <span class="mr-3"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
-        <span><i class="fa fa-heart"></i> {{LIKES}}</span>
+        <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
+            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
+        </button>
+        <span class="mr-3 float-right"><i class="fa fa-eye"></i> {{VIEWS}}</span>
+        <span class="mr-3 float-right"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
     </div>
     <a href="#post/{{POSTID}}" class="card-link float-right">Read more...</a>
   </div>
@@ -46,10 +49,21 @@ class List extends Route {
                 .replace('{{VIEWS}}', post.views)
                 .replace('{{COMMENTS}}', post.comments)
                 .replace('{{LIKES}}', post.likes)
+                .replace('{{LIKED}}',post.liked)
                 .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
         });
 
         document.getElementById('posts').innerHTML = temporalTemplate
+
+        const likeBtn = document.getElementsByClassName('btn-like');
+        likeBtn.forEach(btn=>{
+            btn.addEventListener('click',like);
+            if (btn.getAttribute('data-liked') === 'true') {
+                btn.classList.remove('btn-outline-primary');
+                btn.classList.add('btn-primary');
+            }
+        });
+
     }
 }
 

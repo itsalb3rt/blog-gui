@@ -1,6 +1,8 @@
 import Route from '../../libs/route';
 import moment from 'moment';
 import Miscellany from '../Miscellany/Loading';
+import {getFormatterTags,like} from '../Miscellany/PostsUtil';
+
 
 var template = `
 <div>
@@ -9,7 +11,7 @@ var template = `
     <p class="text-justify">{{BODY}}</p>
     <p class="text-secondary">{{TAGS}}</p>
     <div class="actions">
-        <button type="button" class="btn btn-outline-primary" id="btn-like" data-liked="{{LIKED}}">
+        <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
             <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
         </button>
         <span class="float-right"><i class="fa fa-eye"></i>&Tab;{{VIEWS}}</span>
@@ -57,11 +59,12 @@ class List extends Route {
 
         temporalTemplate += template
             .replace(/{{TITLE}}/gi, post.title)
+            .replace('{{POSTID}}',post.id)
             .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
             .replace('{{USER}}', post.userName)
             .replace('{{EMAIL}}', post.userEmail)
             .replace('{{BODY}}', post.body)
-            .replace('{{TAGS}}', this.getFormatterTags(post.tags))
+            .replace('{{TAGS}}', getFormatterTags(post.tags))
             .replace('{{VIEWS}}', post.views)
             .replace('{{LIKES}}', post.likes)
             .replace('{{LIKED}}', post.liked)
@@ -69,8 +72,16 @@ class List extends Route {
             
 
         document.getElementById('post').innerHTML = temporalTemplate;
-        document.getElementById('btn-like').addEventListener('click', like);
-        likeButtonModificationIsUserLikePost();
+
+        const likeBtn = document.getElementsByClassName('btn-like');
+
+        likeBtn.forEach(btn=>{
+            btn.addEventListener('click',like);
+            if (btn.getAttribute('data-liked') === 'true') {
+                btn.classList.remove('btn-outline-primary');
+                btn.classList.add('btn-primary');
+            }
+        });
 
         document.getElementById('btn-comment').addEventListener('click', addPostComment);
     }
@@ -92,47 +103,6 @@ class List extends Route {
         });
 
         document.getElementById('comments').innerHTML = temporalTemplate
-    }
-
-    getFormatterTags(tags){
-        let result = '';
-        for(let i in tags){
-            result += `<span class="badge badge-info mr-2 px-2 py-2">${tags[i]}</span>`
-        }
-        return result;
-    }
-}
-
-
-async function like(event) {
-    const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
-    let btn = event.target;
-    if (btn.getAttribute('data-liked') === 'true') {
-        //remove like
-        btn.setAttribute('data-liked','false');
-        const unLike = await store.actions().removePostLike(postId);
-        if (unLike.status === 200) {
-            document.getElementById('likes-count').textContent = parseInt(document.getElementById('likes-count').textContent) - 1;
-            document.getElementById('btn-like').classList.remove('btn-primary');
-            document.getElementById('btn-like').classList.add('btn-outline-primary');
-        }
-    } else {
-        //add like
-        btn.setAttribute('data-liked','true');
-        const likePost = await store.actions().setPostLike(postId);
-        if (likePost.status === 200) {
-            document.getElementById('likes-count').textContent = parseInt(document.getElementById('likes-count').textContent) + 1;
-            document.getElementById('btn-like').classList.remove('btn-outline-primary');
-            document.getElementById('btn-like').classList.add('btn-primary');
-        }
-    }
-}
-
-const likeButtonModificationIsUserLikePost = () => {
-    let btn = document.getElementById('btn-like');
-    if (btn.getAttribute('data-liked') === 'true') {
-        btn.classList.remove('btn-outline-primary');
-        btn.classList.add('btn-primary');
     }
 }
 
