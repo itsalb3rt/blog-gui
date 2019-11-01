@@ -46,7 +46,21 @@ class List extends Route {
             posts = posts.filter(post => post.userId == userId);
         }
 
+        let tagsCount = [];
+
         posts.forEach(post => {
+
+            post.tags.forEach(tag => {
+                if (tagsCount[tag] === undefined) {
+                    tagsCount[tag] = {
+                        count: 1,
+                        tagName: tag
+                    };
+                } else {
+                    tagsCount[tag].count++;
+                }
+            })
+
             temporalTemplate += template
                 .replace(/{{POSTID}}/gi, post.id)
                 .replace('{{TITLE}}', post.title)
@@ -60,6 +74,9 @@ class List extends Route {
                 .replace('{{LIKED}}', post.liked)
                 .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
         });
+
+        let filterTags = tagsCount.filter(tag => tag.count >= 2);
+
 
 
         if (posts.length === 0) {

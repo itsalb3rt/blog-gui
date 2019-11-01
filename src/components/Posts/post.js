@@ -113,7 +113,7 @@ class List extends Route {
 }
 
 async function addPostComment(event) {
-    event.target.setAttribute('disabled', 'true');
+    
     const postId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
     const comment = document.getElementById('comment-body').value;
     if (comment.length < 1) {
