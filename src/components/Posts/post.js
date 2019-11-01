@@ -1,7 +1,10 @@
 import Route from '../../libs/route';
 import moment from 'moment';
 import Miscellany from '../Miscellany/Loading';
-import {getFormatterTags,like} from '../Miscellany/PostsUtil';
+import {
+    getFormatterTags,
+    like
+} from '../Miscellany/PostsUtil';
 
 
 var template = `
@@ -24,15 +27,15 @@ var template = `
 `;
 
 var commentsTemplate = `
-<div class="card mt-3 mb-3">
-  <div class="card-header">
-    <p>{{NAME}} ~ {{EMAIL}}</p>
-    <p>{{DATE}}</p>
-  </div>
-  <div class="card-body">
-    <p class="card-text">{{BODY}}</p>
-  </div>
-</div>
+    <div class="card mt-3 mb-3">
+    <div class="card-header">
+        <p>{{NAME}} ~ {{EMAIL}}</p>
+        <p>{{DATE}}</p>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{BODY}}</p>
+    </div>
+    </div>
 `;
 
 class List extends Route {
@@ -59,7 +62,7 @@ class List extends Route {
 
         temporalTemplate += template
             .replace(/{{TITLE}}/gi, post.title)
-            .replace(/{{POSTID}}/gi,post.id)
+            .replace(/{{POSTID}}/gi, post.id)
             .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
             .replace('{{USER}}', post.userName)
             .replace('{{EMAIL}}', post.userEmail)
@@ -69,14 +72,14 @@ class List extends Route {
             .replace('{{LIKES}}', post.likes)
             .replace('{{LIKED}}', post.liked)
             .replace('{{COMMENTS}}', post.comments)
-            
+
 
         document.getElementById('post').innerHTML = temporalTemplate;
 
         const likeBtn = document.getElementsByClassName('btn-like');
 
-        likeBtn.forEach(btn=>{
-            btn.addEventListener('click',like);
+        likeBtn.forEach(btn => {
+            btn.addEventListener('click', like);
             if (btn.getAttribute('data-liked') === 'true') {
                 btn.classList.remove('btn-outline-primary');
                 btn.classList.add('btn-primary');
@@ -92,9 +95,10 @@ class List extends Route {
         let temporalTemplate = '';
 
         const comments = await store.actions().getPostComments(postId);
-
+        
         comments.forEach(comment => {
             temporalTemplate += commentsTemplate
+                .replace('{{POSTID}}', comment.postId)
                 .replace('{{NAME}}', comment.userName)
                 .replace('{{EMAIL}}', comment.userEmail)
                 .replace('{{DATE}}', moment(comment.createdAt).format('DD/MM/YYYY h:mm:ss a'))
@@ -102,7 +106,8 @@ class List extends Route {
 
         });
 
-        document.getElementById('comments').innerHTML = temporalTemplate
+        document.getElementById('comments').setAttribute('id',`comments-of-post-${postId}`);
+        document.getElementById(`comments-of-post-${postId}`).innerHTML = temporalTemplate
     }
 }
 
@@ -117,7 +122,7 @@ async function addPostComment(event) {
         await store.actions().addPostComment(postId, {
             'body': comment
         });
-        window.location.reload();
+        document.getElementById('comment-body').value = '';
     }
 }
 
