@@ -12,7 +12,7 @@ var template = `
     <p class="text-secondary">{{TAGS}}</p>
     <div class="actions">
         <button type="button" class="btn btn-outline-primary btn-like" id="like-btn-{{POSTID}}" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
-            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
+            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count-{{POSTID}}">{{LIKES}}</span>
         </button>
         <span class="float-right"><i class="fa fa-eye"></i>&Tab;<span id="views-count-{{POSTID}}">{{VIEWS}}</span></span>
     </div>

@@ -36,14 +36,17 @@ export async function like(event) {
 document.addEventListener('likes', (e) => {
     const likeCount = document.getElementById(`likes-count-${e.detail.postId}`);
     const likeBtn = document.getElementById(`like-btn-${e.detail.postId}`);
-    if (e.detail.likeType === 'like') {
-        likeBtn.classList.remove('btn-outline-primary');
-        likeBtn.classList.add('btn-primary');
-        likeCount.textContent = e.detail.likes;
-    } else {
-        likeBtn.classList.remove('btn-primary');
-        likeBtn.classList.add('btn-outline-primary');
-        likeCount.textContent = e.detail.likes;
+    
+    if(likeCount !== null && likeBtn !== null){
+        if (e.detail.likeType === 'like') {
+            likeBtn.classList.remove('btn-outline-primary');
+            likeBtn.classList.add('btn-primary');
+            likeCount.textContent = e.detail.likes;
+        } else {
+            likeBtn.classList.remove('btn-primary');
+            likeBtn.classList.add('btn-outline-primary');
+            likeCount.textContent = e.detail.likes;
+        }
     }
 
 });
@@ -51,7 +54,11 @@ document.addEventListener('likes', (e) => {
 document.addEventListener('view-post',(e)=>{
     const data = e.detail;
     const viewsCount = document.getElementById(`views-count-${data.postId}`);
-    viewsCount.textContent = data.views;
+
+    if(viewsCount !== null){
+        viewsCount.textContent = data.views;
+    }
+        
 });
 
 export default {getFormatterTags,like}
