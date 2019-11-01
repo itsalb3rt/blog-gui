@@ -25,7 +25,7 @@ function submitPost(){
 
     store.actions().createPost(post)
     .then(response=>{
-        location.href = '/#profile/me';
+        location.href = `/#post/${response.id}`;
     })
     .catch(error=>{
         console.log(error);

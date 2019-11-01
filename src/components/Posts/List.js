@@ -15,10 +15,10 @@ var template = `
     <h6 class="card-subtitle mb-2 text-muted">by:<a href="/#profile/{{USERID}}"> {{NAME}} - {{EMAIL}}</a>, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
     <div>
-        <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
+        <button type="button" class="btn btn-outline-primary btn-like" id="like-btn-{{POSTID}}" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
             <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count-{{POSTID}}">{{LIKES}}</span>
         </button>
-        <span class="mr-3 float-right"><i class="fa fa-eye"></i> {{VIEWS}}</span>
+        <span class="mr-3 float-right"><i class="fa fa-eye"></i> <span id="views-count-{{POSTID}}">{{VIEWS}}</span></span>
         <span class="mr-3 float-right"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
     </div>
     <a href="#post/{{POSTID}}" class="card-link float-right">Read more...</a>
@@ -44,9 +44,23 @@ class List extends Route {
 
         if (Number.isInteger(parseInt(userId))) {
             posts = posts.filter(post => post.userId == userId);
-        } 
+        }
+
+        let tagsCount = [];
 
         posts.forEach(post => {
+
+            post.tags.forEach(tag => {
+                if (tagsCount[tag] === undefined) {
+                    tagsCount[tag] = {
+                        count: 1,
+                        tagName: tag
+                    };
+                } else {
+                    tagsCount[tag].count++;
+                }
+            })
+
             temporalTemplate += template
                 .replace(/{{POSTID}}/gi, post.id)
                 .replace('{{TITLE}}', post.title)
@@ -61,10 +75,13 @@ class List extends Route {
                 .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
         });
 
-        
-        if(posts.length === 0){
+        let filterTags = tagsCount.filter(tag => tag.count >= 2);
+
+
+
+        if (posts.length === 0) {
             document.getElementById('posts').innerHTML = '<h1>This user no have posts</h1>';
-        }else{
+        } else {
             document.getElementById('posts').innerHTML = temporalTemplate;
         }
 
@@ -76,17 +93,6 @@ class List extends Route {
                 btn.classList.add('btn-primary');
             }
         });
-
-        document.addEventListener('likes', (e) => {
-            console.log(e);
-            const likeCount = document.getElementById(`likes-count-${e.detail.postId}`);
-            if (e.detail.likeType === 'like') {
-                likeCount.textContent = e.detail.likes;
-            } else {
-                likeCount.textContent = e.detail.likes;
-            }
-
-        })
     }
 }
 
