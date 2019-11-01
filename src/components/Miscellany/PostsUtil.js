@@ -18,7 +18,6 @@ export async function like(event) {
         btn.setAttribute('data-liked','false');
         const unLike = await store.actions().removePostLike(postId);
         if (unLike.status === 200) {
-            btn.children[1].textContent = parseInt(btn.children[1].textContent) - 1;
             btn.classList.remove('btn-primary');
             btn.classList.add('btn-outline-primary');
         }
@@ -27,7 +26,6 @@ export async function like(event) {
         btn.setAttribute('data-liked','true');
         const likePost = await store.actions().setPostLike(postId);
         if (likePost.status === 200) {
-            btn.children[1].textContent = parseInt(btn.children[1].textContent) + 1;
             btn.classList.remove('btn-outline-primary');
             btn.classList.add('btn-primary');
         }

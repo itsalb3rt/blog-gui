@@ -1,7 +1,7 @@
 import Router from './libs/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import {Auth,Logout,List,Post} from './components/Components'
+import {Auth,Logout,List,Post,Profile} from './components/Components'
 import Store from './services/Store';
 
 //icons
@@ -27,16 +27,22 @@ async function validateSession(){
 
     // Set this variables to global, will be use on SPA.
     window.store = new Store(API_PATH, token);
-    // window.me = await blogapi.getMe();
+    window.me = await store.actions().getMe();
 
     // if me is undefined resturn to login page.
     // if (me === undefined){
     //     localStorage.removeItem('token');
     //     window.location.href = '/#auth';
     // }
+    var ws = new WebSocket(`${WS_PATH}?token=${token}`);
+    ws.onmessage = (e)=>{
+        const data = JSON.parse(e.data);
+        var event = new CustomEvent(data.type, { 'detail': data });
+        document.dispatchEvent(event);
+    }
 
     // if all is fine handle create router handler.
-    var routes = [Auth,Logout,List,Post];
+    var routes = [Auth,Logout,List,Post,Profile];
     var router = new Router('app', routes);
 }
 

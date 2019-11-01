@@ -12,6 +12,12 @@ export default class Store {
         var path = this.path;
         
         return {
+            async getMe(){
+                return request.get(`${path}/users/me`);
+            },
+            async getUser(id){
+                return request.get(`${path}/users/${id}`);
+            },
             async getPosts() {
                 return request.get(`${path}/post`);
             },        

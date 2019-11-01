@@ -14,7 +14,7 @@ var template = `
     <p class="card-text">{{BODY}}</p>
     <div>
         <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
-            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
+            <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count-{{POSTID}}">{{LIKES}}</span>
         </button>
         <span class="mr-3 float-right"><i class="fa fa-eye"></i> {{VIEWS}}</span>
         <span class="mr-3 float-right"><i class="fa fa-comments"></i> {{COMMENTS}}</span>
@@ -64,6 +64,16 @@ class List extends Route {
             }
         });
 
+        document.addEventListener('likes',(e)=>{
+            console.log(e);
+            const likeCount = document.getElementById(`likes-count-${e.detail.postId}`);
+            if(e.detail.likeType === 'like'){
+                likeCount.textContent = e.detail.likes;
+            }else{
+                likeCount.textContent = e.detail.likes;
+            }
+            
+        })
     }
 }
 
