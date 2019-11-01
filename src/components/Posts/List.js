@@ -10,7 +10,7 @@ var template = `
         <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
         <a href="#post/{{POSTID}}" class="card-link">{{TITLE}}</a>
     </h5>
-    <h6 class="card-subtitle mb-2 text-muted">by: {{NAME}} - {{EMAIL}}, <span style='color: grey'> {{DATE}}</span></h6>
+    <h6 class="card-subtitle mb-2 text-muted">by:<a href="/#profile/{{USERID}}"> {{NAME}} - {{EMAIL}}</a>, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
     <div>
         <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
@@ -45,6 +45,7 @@ class List extends Route {
                 .replace('{{TITLE}}', post.title)
                 .replace('{{BODY}}', post.body.substring(0, 100))
                 .replace('{{NAME}}', post.userName)
+                .replace('{{USERID}}', post.userId)
                 .replace('{{EMAIL}}', post.userEmail)
                 .replace('{{VIEWS}}', post.views)
                 .replace('{{COMMENTS}}', post.comments)
