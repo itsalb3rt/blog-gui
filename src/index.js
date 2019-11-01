@@ -1,7 +1,7 @@
 import Router from './libs/router';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import {Auth,Logout,List,Post,Profile} from './components/Components'
+import {Auth,Logout,List,Post,CreatePost,Profile} from './components/Components'
 import Store from './services/Store';
 
 //icons
@@ -42,7 +42,7 @@ async function validateSession(){
     }
 
     // if all is fine handle create router handler.
-    var routes = [Auth,Logout,List,Post,Profile];
+    var routes = [Auth,Logout,List,Post,CreatePost,Profile];
     var router = new Router('app', routes);
 }
 

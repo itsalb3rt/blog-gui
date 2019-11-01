@@ -12,9 +12,9 @@ var template = `
         <div class="card-body">
           <h5 class="card-title">{{USERNAME}}</h5>
           <p class="card-text">
-              <div>{{EMAIL}}</div>
-              <div>{{POSTS}} - <a href="#">View All</a></div>
-              <div>{{REGISTERAT}}</div>
+              <div class="mt-1"><strong>Email:</strong> {{EMAIL}}</div>
+              <div class="mt-4"><strong>Post:</strong> {{POSTS}} - <a href="/#posts/{{USERID}}">View All</a></div>
+              <div class="mt-4"><strong>Register at:</strong> {{REGISTERAT}}</div>
           </p>
         </div>
       </div>
@@ -39,13 +39,14 @@ class Profile extends Route {
         let user;
 
         if (userId == 'me') {
-            user = await window.me;
+            user = await store.actions().getUser(window.me.id);
         } else {
             user = await store.actions().getUser(userId);
         }
 
         temporalTemplate += template
             .replace('{{POSTS}}', user.posts)
+            .replace('{{USERID}}',user.id)
             .replace('{{USERNAME}}', user.name)
             .replace('{{EMAIL}}', user.email)
             .replace('{{REGISTERAT}}', moment(user.createdAt).format('DD/MM/YYYY h:mm:ss'));

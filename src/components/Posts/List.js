@@ -1,7 +1,9 @@
 import Route from '../../libs/route';
 import moment from 'moment';
 import Miscellany from '../Miscellany/Loading';
-import {like} from '../Miscellany/PostsUtil';
+import {
+    like
+} from '../Miscellany/PostsUtil';
 
 var template = `
 <div class="card mt-2 mb-2">
@@ -10,7 +12,7 @@ var template = `
         <span class="oi oi-icon-name" title="icon name" aria-hidden="true"></span>
         <a href="#post/{{POSTID}}" class="card-link">{{TITLE}}</a>
     </h5>
-    <h6 class="card-subtitle mb-2 text-muted">by: {{NAME}} - {{EMAIL}}, <span style='color: grey'> {{DATE}}</span></h6>
+    <h6 class="card-subtitle mb-2 text-muted">by:<a href="/#profile/{{USERID}}"> {{NAME}} - {{EMAIL}}</a>, <span style='color: grey'> {{DATE}}</span></h6>
     <p class="card-text">{{BODY}}</p>
     <div>
         <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
@@ -37,7 +39,12 @@ class List extends Route {
         document.getElementById('posts').innerHTML = Miscellany.loading;
         let temporalTemplate = '';
 
-        const posts = await store.actions().getPosts();
+        const userId = window.location.hash.substring(window.location.hash.indexOf('/') + 1);
+        let posts = await store.actions().getPosts();
+
+        if (Number.isInteger(parseInt(userId))) {
+            posts = posts.filter(post => post.userId == userId);
+        } 
 
         posts.forEach(post => {
             temporalTemplate += template
@@ -45,34 +52,40 @@ class List extends Route {
                 .replace('{{TITLE}}', post.title)
                 .replace('{{BODY}}', post.body.substring(0, 100))
                 .replace('{{NAME}}', post.userName)
+                .replace('{{USERID}}', post.userId)
                 .replace('{{EMAIL}}', post.userEmail)
                 .replace('{{VIEWS}}', post.views)
                 .replace('{{COMMENTS}}', post.comments)
                 .replace('{{LIKES}}', post.likes)
-                .replace('{{LIKED}}',post.liked)
+                .replace('{{LIKED}}', post.liked)
                 .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
         });
 
-        document.getElementById('posts').innerHTML = temporalTemplate
+        
+        if(posts.length === 0){
+            document.getElementById('posts').innerHTML = '<h1>This user no have posts</h1>';
+        }else{
+            document.getElementById('posts').innerHTML = temporalTemplate;
+        }
 
         const likeBtn = document.getElementsByClassName('btn-like');
-        likeBtn.forEach(btn=>{
-            btn.addEventListener('click',like);
+        likeBtn.forEach(btn => {
+            btn.addEventListener('click', like);
             if (btn.getAttribute('data-liked') === 'true') {
                 btn.classList.remove('btn-outline-primary');
                 btn.classList.add('btn-primary');
             }
         });
 
-        document.addEventListener('likes',(e)=>{
+        document.addEventListener('likes', (e) => {
             console.log(e);
             const likeCount = document.getElementById(`likes-count-${e.detail.postId}`);
-            if(e.detail.likeType === 'like'){
+            if (e.detail.likeType === 'like') {
                 likeCount.textContent = e.detail.likes;
-            }else{
+            } else {
                 likeCount.textContent = e.detail.likes;
             }
-            
+
         })
     }
 }
