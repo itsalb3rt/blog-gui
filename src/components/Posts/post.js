@@ -11,10 +11,10 @@ var template = `
     <p class="text-justify">{{BODY}}</p>
     <p class="text-secondary">{{TAGS}}</p>
     <div class="actions">
-        <button type="button" class="btn btn-outline-primary btn-like" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
+        <button type="button" class="btn btn-outline-primary btn-like" id="like-btn-{{POSTID}}" data-liked="{{LIKED}}" data-post-id="{{POSTID}}">
             <i class="fa fa-heart"></i>&Tab;Like <span id="likes-count">{{LIKES}}</span>
         </button>
-        <span class="float-right"><i class="fa fa-eye"></i>&Tab;{{VIEWS}}</span>
+        <span class="float-right"><i class="fa fa-eye"></i>&Tab;<span id="views-count-{{POSTID}}">{{VIEWS}}</span></span>
     </div>
 </div>
 <hr>
@@ -59,7 +59,7 @@ class List extends Route {
 
         temporalTemplate += template
             .replace(/{{TITLE}}/gi, post.title)
-            .replace('{{POSTID}}',post.id)
+            .replace(/{{POSTID}}/gi,post.id)
             .replace('{{DATE}}', moment(post.createdAt).format('DD/MM/YYYY h:mm:ss a'))
             .replace('{{USER}}', post.userName)
             .replace('{{EMAIL}}', post.userEmail)
