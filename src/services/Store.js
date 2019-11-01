@@ -1,4 +1,5 @@
 import Request from './Request'
+import createPost from '../components/Posts/create';
 
 export default class Store {
 
@@ -17,6 +18,9 @@ export default class Store {
             },
             async getUser(id){
                 return request.get(`${path}/users/${id}`);
+            },
+            async createPost(payload){
+                return request.post(`${path}/post`,payload);
             },
             async getPosts() {
                 return request.get(`${path}/post`);
