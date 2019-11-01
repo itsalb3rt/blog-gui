@@ -39,7 +39,7 @@ class Profile extends Route {
         let user;
 
         if (userId == 'me') {
-            user = await window.me;
+            user = await store.actions().getUser(window.me.id);
         } else {
             user = await store.actions().getUser(userId);
         }
