@@ -27,7 +27,7 @@ var template = `
 `;
 
 var commentsTemplate = `
-    <div class="card mt-3 mb-3">
+    <div class="card mt-3 mb-3" id="comment-id-{{COMMENTID}}">
     <div class="card-header">
         <p>{{NAME}} ~ {{EMAIL}}</p>
         <p>{{DATE}}</p>
@@ -103,6 +103,7 @@ class List extends Route {
                 .replace('{{EMAIL}}', comment.userEmail)
                 .replace('{{DATE}}', moment(comment.createdAt).format('DD/MM/YYYY h:mm:ss a'))
                 .replace('{{BODY}}', comment.body)
+                .replace('{{COMMENTID}}',comment.id)
 
         });
 

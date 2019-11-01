@@ -63,7 +63,7 @@ document.addEventListener('view-post', (e) => {
 
 document.addEventListener('new-comment', (e) => {
     var commentsTemplate = `
-    <div class="card mt-3 mb-3">
+    <div class="card mt-3 mb-3" id="comment-id-{{COMMENTID}}">
     <div class="card-header">
         <p>{{NAME}} ~ {{EMAIL}}</p>
         <p>{{DATE}}</p>
@@ -76,12 +76,16 @@ document.addEventListener('new-comment', (e) => {
     let commentsContainer = document.getElementById(`comments-of-post-${e.detail.postId}`);
     let temporalTemplate = '';
 
-    if (commentsContainer !== null) {
+    const comment = document.getElementById(`comment-id-${e.detail.commendId}`);
+
+    if (commentsContainer !== null && comment === null) {
         temporalTemplate += commentsTemplate
             .replace('{{NAME}}', e.detail.userName)
             .replace('{{EMAIL}}', e.detail.userEmail)
             .replace('{{DATE}}', 'Some seconds')
-            .replace('{{BODY}}', e.detail.commentBody);
+            .replace('{{BODY}}', e.detail.commentBody)
+            .replace('{{COMMENTID}}',e.detail.commendId);
+
         commentsContainer.innerHTML += temporalTemplate;
     }
 })
