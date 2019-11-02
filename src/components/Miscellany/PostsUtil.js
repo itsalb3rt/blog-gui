@@ -32,6 +32,21 @@ export async function like(event) {
     }
 }
 
+document.addEventListener('user-connected',(e)=>{
+    const userListElement = document.getElementById('contected-users-list');
+    const isConnected = document.getElementById(`user-conected-id-${e.detail.userId}`);
+
+    if(userListElement !== null && isConnected === null){
+        userListElement.innerHTML += `<li id="user-conected-id-${e.detail.userId}" class="list-group-item"><i class="fa fa-user"></i>&Tab;${e.detail.userEmail}</li>`;
+    }
+});
+
+document.addEventListener('disconnected',(e)=>{
+    const user = document.getElementById(`user-conected-id-${e.detail.userId}`);
+    
+    if(user !== null)
+        user.remove();
+});
 
 document.addEventListener('likes', (e) => {
     const likeCount = document.getElementById(`likes-count-${e.detail.postId}`);
