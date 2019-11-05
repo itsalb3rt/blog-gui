@@ -18,6 +18,7 @@ async function validateSession(){
     // // if token if null or undefined return to login page
     if (token === null || token === undefined){
         document.getElementById('app-navbar').style.display = 'none';
+        document.getElementById('conected-users-container').style.display = 'none';
         window.location.href = '/#auth';
     }
     

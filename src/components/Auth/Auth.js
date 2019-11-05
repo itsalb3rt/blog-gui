@@ -49,6 +49,7 @@ function login() {
 
       setTimeout(() => {
         document.getElementById('app-navbar').removeAttribute('style');
+        document.getElementById('conected-users-container').removeAttribute('style');
         window.store = new Store(API_PATH, response.token);
         window.location.href = '#posts';
       }, 1000)
